@@ -6,8 +6,6 @@ import createRoutes from './router/routes';
 import RouteWithSubRoutes from './router/RouteWithSubRoutes';
 import history from './router/history';
 import { Switch } from 'react-router-dom';
-
-import './App.css';
 import Nav from 'components/Nav';
 
 const routes = createRoutes();
