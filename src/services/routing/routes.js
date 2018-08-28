@@ -5,19 +5,19 @@ const routeConfig = [
   {
     path: '/',
     exact: true,
-    getModules: () => import('../pages/TickerTable')
+    getModules: () => import('scenes/TickerTable')
   },
   {
     path: '/dashboard',
-    getModules: () => import('../pages/TickerTable')
+    getModules: () => import('scenes/TickerTable')
   },
   {
     path: '/about',
-    getModules: () => import('../pages/About')
+    getModules: () => import('scenes/About')
   },
   {
     path: '/not-found',
-    getModules: () => import('../pages/NotFound')
+    getModules: () => import('scenes/NotFound')
   }
 ];
 

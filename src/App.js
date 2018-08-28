@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router-dom';
+import { Router, Switch } from 'react-router-dom';
 import { Grid } from 'react-flexbox-grid';
 
-import createRoutes from './router/routes';
-import RouteWithSubRoutes from './router/RouteWithSubRoutes';
-import history from './router/history';
-import { Switch } from 'react-router-dom';
+import createRoutes from 'services/routing/routes';
+import RouteWithSubRoutes from 'services/routing/RouteWithSubRoutes';
+import history from 'services/routing/history';
 import Nav from 'components/Nav';
 
 const routes = createRoutes();
