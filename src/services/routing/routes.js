@@ -5,11 +5,11 @@ const routeConfig = [
   {
     path: '/',
     exact: true,
-    getModules: () => import('scenes/TickerTable')
+    getModules: () => import('scenes/Tickers')
   },
   {
     path: '/dashboard',
-    getModules: () => import('scenes/TickerTable')
+    getModules: () => import('scenes/Tickers')
   },
   {
     path: '/about',

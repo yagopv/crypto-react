@@ -1,25 +1,28 @@
 import cachios from 'cachios';
-import * as constants from 'constants';
+import {
+  COINMARKETCAP_ROOT_URL,
+  CRYPTOCOMPARE_ROOT_URL,
+  TickerDetailIntervals
+} from './constants';
 
 const getTickers = async () => {
   const response = await cachios.get(
-    `${constants.COINMARKETCAP_ROOT_URL}/ticker/?limit=0`,
+    `${COINMARKETCAP_ROOT_URL}/ticker/?limit=0`,
     { ttl: 300 }
   );
   return response;
 };
 
 const getGlobalMarketInfo = async () => {
-  const response = await cachios.get(
-    `${constants.COINMARKETCAP_ROOT_URL}/global/`,
-    { ttl: 3600 }
-  );
+  const response = await cachios.get(`${COINMARKETCAP_ROOT_URL}/global/`, {
+    ttl: 3600
+  });
   return response;
 };
 
 const getCoinList = async () => {
   const response = await cachios.get(
-    `${constants.CRYPTOCOMPARE_ROOT_URL}/data/all/coinlist`,
+    `${CRYPTOCOMPARE_ROOT_URL}/data/all/coinlist`,
     { ttl: 3600 }
   );
   return response;
@@ -34,18 +37,12 @@ const getHistoData = async (symbol, interval) => {
 
 function getBaseUrl(symbol, interval) {
   switch (interval) {
-    case constants.TickerDetailIntervals.MINUTE:
-      return `${
-        constants.CRYPTOCOMPARE_ROOT_URL
-      }/data/histominute?fsym=${symbol}&tsym=USD&e=CCCAGG`;
-    case constants.TickerDetailIntervals.HOUR:
-      return `${
-        constants.CRYPTOCOMPARE_ROOT_URL
-      }/data/histohour?fsym=${symbol}&tsym=USD&e=CCCAGG`;
+    case TickerDetailIntervals.MINUTE:
+      return `${CRYPTOCOMPARE_ROOT_URL}/data/histominute?fsym=${symbol}&tsym=USD&e=CCCAGG`;
+    case TickerDetailIntervals.HOUR:
+      return `${CRYPTOCOMPARE_ROOT_URL}/data/histohour?fsym=${symbol}&tsym=USD&e=CCCAGG`;
     default:
-      return `${
-        constants.CRYPTOCOMPARE_ROOT_URL
-      }/data/histoday?fsym=${symbol}&tsym=USD&e=CCCAGG&allData=true`;
+      return `${CRYPTOCOMPARE_ROOT_URL}/data/histoday?fsym=${symbol}&tsym=USD&e=CCCAGG&allData=true`;
   }
 }
 

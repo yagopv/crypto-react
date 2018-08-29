@@ -1,12 +1,14 @@
 import { init } from '@rematch/core';
 import selectPlugin from '@rematch/select';
-import ticker from 'store/models/ticker';
+import tickers from 'store/models/tickers';
 
 const store = init({
   models: {
-    ticker
+    tickers
   },
   plugins: [selectPlugin()]
 });
+
+export const { select } = store;
 
 export default store;

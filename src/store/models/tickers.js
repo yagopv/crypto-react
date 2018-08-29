@@ -1,4 +1,5 @@
-import mapKeys from 'lodash/mapKeys';
+import mapValues from 'lodash/mapValues';
+import values from 'lodash/values';
 import { getTickers, getCoinList } from 'services/http/api';
 
 export default {
@@ -13,17 +14,17 @@ export default {
     setTickers(state, payload) {
       return {
         ...state,
-        byId: mapKeys(payload, ticker => ticker.id)
+        byId: payload
       };
     }
   },
   effects: dispatch => ({
     async getTickers(payload, rootState) {
       try {
-        const tickers = getTickers();
-        const coinList = getCoinList();
-        const tickersResult = await tickers;
-        const coinListResult = await coinList;
+        const [tickersResult, coinListResult] = await Promise.all([
+          getTickers(),
+          getCoinList()
+        ]);
 
         if (coinListResult.data['Response'] === 'Error') {
           throw new Error(coinListResult.data['ErrorsSummary']);
@@ -31,10 +32,11 @@ export default {
 
         if (
           tickersResult.data &&
+          tickersResult.data['data'] &&
           coinListResult.data &&
           coinListResult.data['Data']
         ) {
-          tickersResult.data.forEach(ticker => {
+          mapValues(tickersResult.data.data, ticker => {
             ticker.meta = coinListResult.data['Data'][ticker.symbol];
 
             // IOTA ticker is different in coinmarketcap than in cryptocompare
@@ -44,8 +46,15 @@ export default {
             }
           });
         }
-        dispatch.ticker.setTickers(tickersResult);
+        dispatch.tickers.setTickers(tickersResult.data.data);
       } catch (error) {}
+    }
+  }),
+  selectors: (slice, createSelector, hasProps) => ({
+    getTickersById() {
+      return slice(tickers => {
+        return values(tickers.byId, ticker => ticker);
+      });
     }
   })
 };
